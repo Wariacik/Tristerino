@@ -1,0 +1,12 @@
+c:\users\marcel\documents\visual studio 2015\Projects\Tristerino\Tristerino\bin\Debug\Tristerino.exe.config
+c:\users\marcel\documents\visual studio 2015\Projects\Tristerino\Tristerino\bin\Debug\Tristerino.exe
+c:\users\marcel\documents\visual studio 2015\Projects\Tristerino\Tristerino\bin\Debug\Tristerino.pdb
+c:\users\marcel\documents\visual studio 2015\Projects\Tristerino\Tristerino\bin\Debug\EloBuddy.dll
+c:\users\marcel\documents\visual studio 2015\Projects\Tristerino\Tristerino\bin\Debug\EloBuddy.SDK.dll
+c:\users\marcel\documents\visual studio 2015\Projects\Tristerino\Tristerino\bin\Debug\SharpDX.dll
+c:\users\marcel\documents\visual studio 2015\Projects\Tristerino\Tristerino\bin\Debug\SharpDX.Direct3D9.dll
+c:\users\marcel\documents\visual studio 2015\Projects\Tristerino\Tristerino\bin\Debug\Newtonsoft.Json.dll
+c:\users\marcel\documents\visual studio 2015\Projects\Tristerino\Tristerino\bin\Debug\EloBuddy.Sandbox.dll
+c:\users\marcel\documents\visual studio 2015\Projects\Tristerino\Tristerino\obj\Debug\Tristerino.csprojResolveAssemblyReference.cache
+c:\users\marcel\documents\visual studio 2015\Projects\Tristerino\Tristerino\obj\Debug\Tristerino.exe
+c:\users\marcel\documents\visual studio 2015\Projects\Tristerino\Tristerino\obj\Debug\Tristerino.pdb
