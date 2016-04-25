@@ -55,6 +55,7 @@
     <Compile Include="Damages.cs" />
     <Compile Include="Events.cs" />
     <Compile Include="Misc.cs" />
+    <Compile Include="MiscFunctions.cs" />
     <Compile Include="ModeM.cs" />
     <Compile Include="Config.cs" />
     <Compile Include="Modes\Combo.cs" />

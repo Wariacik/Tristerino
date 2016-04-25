@@ -13,7 +13,7 @@ namespace Tristerino.Modes
 
         public override void Execute()
         {
-            if (Settings.UseW & W.IsReady() && PlayerMana >= SettingsMana.MinWMana)
+            if (Settings.UseW & W.IsReady() && PlayerMana >= SettingsMana.MinWManaLC)
             {
                 var minions = EntityManager.MinionsAndMonsters.GetLaneMinions(EntityManager.UnitTeam.Enemy, _PlayerPos,
                     W.Range + W.Width);

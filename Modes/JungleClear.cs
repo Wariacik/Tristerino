@@ -13,10 +13,11 @@ namespace Tristerino.Modes
 
         public override void Execute()
         {
-            if (Settings.UseW & W.IsReady() && PlayerMana >= SettingsMana.MinWMana)
+            if (Settings.UseW & W.IsReady() && PlayerMana >= SettingsMana.MinWManaJC)
             {
                 var monsters = EntityManager.MinionsAndMonsters.GetJungleMonsters(_PlayerPos, W.Range + W.Width);
                 var farmLoc = EntityManager.MinionsAndMonsters.GetCircularFarmLocation(monsters, W.Width, (int) W.Range);
+                W.Cast(farmLoc.CastPosition);
             }
         }
     }

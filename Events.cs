@@ -2,7 +2,6 @@
 using System.Linq;
 using EloBuddy;
 using EloBuddy.SDK;
-using EloBuddy.SDK.Menu.Values;
 using EloBuddy.SDK.Rendering;
 using SharpDX;
 using SettingsMana = Tristerino.Config.ManaManagerMenu;
@@ -19,6 +18,7 @@ namespace Tristerino
             Orbwalker.OnAttack += OrbwalkerOnAttack;
             Drawing.OnDraw += OnDraw;
         }
+
         private static float PlayerMana
         {
             get { return Player.Instance.ManaPercent; }
@@ -32,19 +32,21 @@ namespace Tristerino
             }
             if ((SettingsModes.Combo.UseQ && Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo)) ||
                 (SettingsModes.Harass.UseQ && Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass)) ||
-                (Orbwalker.LaneClearAttackChamps && SettingsModes.LaneClear.UseQ &&
-                 Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear)))
+                (SettingsModes.LaneClear.UseQ && Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear)) ||
+                (SettingsModes.JungleClear.UseQ && Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear)))
             {
-                if (target is AIHeroClient && PlayerMana >= SettingsMana.MinQMana)
+                if (target is AIHeroClient)
                 {
                     SpellM.Q.Cast();
                     return;
                 }
             }
-            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) ||
-                Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
+
+
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear) ||
+                Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear))
             {
-                if (target is Obj_AI_Minion && PlayerMana >= SettingsMana.MinQMana)
+                if (target is Obj_AI_Minion)
                 {
                     if (SettingsModes.JungleClear.UseQ && target.Team == GameObjectTeam.Neutral)
                     {
@@ -64,23 +66,29 @@ namespace Tristerino
             {
                 return;
             }
-            if ((SettingsModes.Combo.UseE && Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo)) ||
-                (SettingsModes.Harass.UseE && Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass)) ||
-                (Orbwalker.LaneClearAttackChamps && SettingsModes.LaneClear.UseE &&
-                 Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear)))
+            if ((SettingsModes.Combo.UseE && Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo) &&
+                 PlayerMana >= SettingsMana.MinEManaC) ||
+                (SettingsModes.Harass.UseE && Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass) &&
+                 PlayerMana >= SettingsMana.MinEManaH) ||
+                (SettingsModes.LaneClear.UseE && Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) &&
+                 PlayerMana >= SettingsMana.MinEManaLC) ||
+                (SettingsModes.JungleClear.UseE && Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear) &&
+                 PlayerMana >= SettingsMana.MinEManaJC))
             {
-                if (target is AIHeroClient && PlayerMana >= SettingsMana.MinQMana)
+                if (target is AIHeroClient)
                 {
                     SpellM.E.Cast((Obj_AI_Base) target);
                     return;
                 }
             }
+
+
             if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) ||
                 Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {
-                if (target is Obj_AI_Minion && PlayerMana >= SettingsMana.MinQMana)
+                if (target is Obj_AI_Minion)
                 {
-                    if (SettingsModes.LaneClear.UseE && target.IsEnemy)
+                    if (SettingsModes.LaneClear.UseE && target.IsEnemy && PlayerMana >= SettingsMana.MinEManaLC)
                     {
                         var ETargets =
                             EntityManager.MinionsAndMonsters.GetLaneMinions(EntityManager.UnitTeam.Enemy,
@@ -90,6 +98,11 @@ namespace Tristerino
                             SpellM.E.Cast((Obj_AI_Base) target);
                         }
                     }
+                    if (SettingsModes.JungleClear.UseE && target.Team == GameObjectTeam.Neutral &&
+                        PlayerMana >= SettingsMana.MinEManaJC)
+                    {
+                        SpellM.E.Cast((Obj_AI_Base) target);
+                    }
                 }
             }
         }
@@ -98,6 +111,7 @@ namespace Tristerino
         {
         }
 
+
         private static void OnDraw(EventArgs args)
         {
             var ERRange = SpellM.ERRange();
@@ -105,21 +119,21 @@ namespace Tristerino
             {
                 if (!(SettingsDrawing.DrawOnlyReady && !SpellM.W.IsReady()))
                 {
-                    Circle.Draw(Color.LightBlue, SpellM.W.Range, Player.Instance.Position);
+                    Circle.Draw(Color.Black, SpellM.W.Range, Player.Instance.Position);
                 }
             }
             if (SettingsDrawing.DrawE)
             {
                 if (!(SettingsDrawing.DrawOnlyReady && !SpellM.E.IsReady()))
                 {
-                    Circle.Draw(Color.Orange, ERRange, Player.Instance.Position);
+                    Circle.Draw(Color.White, ERRange, Player.Instance.Position);
                 }
             }
             if (SettingsDrawing.DrawR)
             {
                 if (!(SettingsDrawing.DrawOnlyReady && !SpellM.R.IsReady()))
                 {
-                    Circle.Draw(Color.OrangeRed, ERRange, Player.Instance.Position);
+                    Circle.Draw(Color.Red, ERRange, Player.Instance.Position);
                 }
             }
         }

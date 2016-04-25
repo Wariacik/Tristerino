@@ -15,7 +15,7 @@ namespace Tristerino.Modes
 
         public override void Execute()
         {
-            if (Settings.UseR && R.IsReady() && PlayerMana >= SettingsMana.MinRMana)
+            if (Settings.UseR && R.IsReady() && PlayerMana >= SettingsMana.MinRManaF)
             {
                 var target =
                     EntityManager.Heroes.Enemies.Where(e => e.IsValidTarget(R.Range))
@@ -30,7 +30,7 @@ namespace Tristerino.Modes
                     }
                 }
             }
-            if (Settings.UseW && W.IsReady() && PlayerMana >= SettingsMana.MinWMana)
+            if (Settings.UseW && W.IsReady() && PlayerMana >= SettingsMana.MinWManaF)
             {
                 var cursorPos = Game.CursorPos;
                 var castPos = _PlayerPos.Distance(cursorPos) <= W.Range

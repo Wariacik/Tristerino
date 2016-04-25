@@ -1,5 +1,4 @@
-﻿using EloBuddy;
-using EloBuddy.SDK.Enumerations;
+﻿using EloBuddy.SDK.Enumerations;
 using EloBuddy.SDK.Menu;
 using EloBuddy.SDK.Menu.Values;
 
@@ -16,8 +15,8 @@ namespace Tristerino
             Menu = MainMenu.AddMenu(MenuName, MenuName.ToLower());
             Menu.AddGroupLabel("Tristerino 1.0 by WodzuPL");
             ModesMenu.Initialize();
-            PredictionMenu.Initialize();
             ManaManagerMenu.Initialize();
+            PredictionMenu.Initialize();
             DrawingMenu.Initialize();
             MiscMenu.Initialize();
         }
@@ -131,7 +130,7 @@ namespace Tristerino
 
                 static LaneClear()
                 {
-                    MenuModes.AddGroupLabel("LaneClear");
+                    MenuModes.AddGroupLabel("Lane Clear");
                     _useQ = MenuModes.Add("laneUseQ", new CheckBox("Use Q"));
                     _useW = MenuModes.Add("laneUseW", new CheckBox("Use W"));
                     _useE = MenuModes.Add("laneUseE", new CheckBox("Use E"));
@@ -174,12 +173,10 @@ namespace Tristerino
                 private static readonly CheckBox _useQ;
                 private static readonly CheckBox _useW;
                 private static readonly CheckBox _useE;
-                private static readonly Slider _minWTargets;
-                private static readonly Slider _minETargets;
 
                 static JungleClear()
                 {
-                    MenuModes.AddGroupLabel("JungleClear");
+                    MenuModes.AddGroupLabel("Jungle Clear");
                     _useQ = MenuModes.Add("jungleUseQ", new CheckBox("Use Q"));
                     _useW = MenuModes.Add("jungleUseW", new CheckBox("Use W"));
                     _useE = MenuModes.Add("jungleUseE", new CheckBox("Use E"));
@@ -240,6 +237,8 @@ namespace Tristerino
             public static readonly Slider _skin;
             private static readonly CheckBox _autolvlup;
             public static readonly ComboBox _lvlup;
+            /*public static readonly CheckBox _heal;
+            public static readonly Slider _hp;*/
 
             static MiscMenu()
             {
@@ -250,10 +249,13 @@ namespace Tristerino
                 _skin = MenuMisc.Add("Skin", new Slider("Choose skin", 0, 0, 10));
 
 
-
                 MenuMisc.AddGroupLabel("Auto Level Up");
                 _autolvlup = MenuMisc.Add("Autolvlup", new CheckBox("Use auto level up", false));
-                _lvlup = MenuMisc.Add("Lvlup", new ComboBox("Choose level up order", 0, "E>W>Q","E>Q>W"));
+                _lvlup = MenuMisc.Add("Lvlup", new ComboBox("Choose level up order", 0, "E>W>Q", "E>Q>W"));
+
+                /*MenuMisc.AddGroupLabel("Auto Heal [WIP]");
+                _heal = MenuMisc.Add("Heal", new CheckBox("Use auto heal", false));
+                _hp = MenuMisc.Add("HP", new Slider("Minimum health % to use heal", 15, 0, 100));*/
             }
 
             public static bool SkinHack
@@ -271,6 +273,15 @@ namespace Tristerino
                 get { return _autolvlup.CurrentValue; }
             }
 
+            /*public static bool Heal
+            {
+                get { return _heal.CurrentValue; }
+            }
+            public static int HP
+            {
+                get { return _hp.CurrentValue; }
+            }*/
+
             public static void Initialize()
             {
             }
@@ -279,38 +290,104 @@ namespace Tristerino
         public static class ManaManagerMenu
         {
             private static readonly Menu MenuManaManager;
-            private static readonly Slider _minQMana;
-            private static readonly Slider _minWMana;
-            private static readonly Slider _minEMana;
-            private static readonly Slider _minRMana;
+            private static readonly Slider _minWManaC;
+            private static readonly Slider _minEManaC;
+            private static readonly Slider _minRManaC;
+
+            private static readonly Slider _minEManaH;
+
+            private static readonly Slider _minWManaLC;
+            private static readonly Slider _minEManaLC;
+
+            private static readonly Slider _minWManaJC;
+            private static readonly Slider _minEManaJC;
+
+            private static readonly Slider _minWManaF;
+            private static readonly Slider _minRManaF;
+
 
             static ManaManagerMenu()
             {
                 MenuManaManager = Menu.AddSubMenu("Mana Manager");
-                _minQMana = MenuManaManager.Add("minQMana", new Slider("Minimum mana % to use Q", 25, 0, 100));
-                _minWMana = MenuManaManager.Add("minWMana", new Slider("Minimum mana % to use W", 0, 0, 100));
-                _minEMana = MenuManaManager.Add("minEMana", new Slider("Minimum mana % to use E", 35, 0, 100));
-                _minRMana = MenuManaManager.Add("minRMana", new Slider("Minimum mana % to use R", 0, 0, 100));
+                MenuManaManager.AddGroupLabel("Combo");
+
+                _minWManaC = MenuManaManager.Add("minWManaC", new Slider("Minimum mana % to use W", 35, 0, 100));
+                _minEManaC = MenuManaManager.Add("minEManaC", new Slider("Minimum mana % to use E", 35, 0, 100));
+                _minRManaC = MenuManaManager.Add("minRManaC", new Slider("Minimum mana % to use R", 35, 0, 100));
+
+                MenuManaManager.AddGroupLabel("Harass");
+                _minEManaH = MenuManaManager.Add("minEManaH", new Slider("Minimum mana % to use E", 50, 0, 100));
+
+                MenuManaManager.AddGroupLabel("Lane Clear");
+                _minWManaLC = MenuManaManager.Add("minWManaLC", new Slider("Minimum mana % to use W", 50, 0, 100));
+                _minEManaLC = MenuManaManager.Add("minEManaLC", new Slider("Minimum mana % to use E", 50, 0, 100));
+
+                MenuManaManager.AddGroupLabel("JungleClear");
+                _minWManaJC = MenuManaManager.Add("minWManaJC", new Slider("Minimum mana % to use W", 50, 0, 100));
+                _minEManaJC = MenuManaManager.Add("minEManaJC", new Slider("Minimum mana % to use E", 50, 0, 100));
+
+                MenuManaManager.AddGroupLabel("Flee");
+                _minWManaF = MenuManaManager.Add("minWManaF", new Slider("Minimum mana % to use W", 0, 0, 100));
+                _minRManaF = MenuManaManager.Add("minRManaF", new Slider("Minimum mana % to use R", 0, 0, 100));
             }
 
-            public static int MinQMana
+            //Combo
+
+            public static int MinWManaC
             {
-                get { return _minQMana.CurrentValue; }
+                get { return _minWManaC.CurrentValue; }
             }
 
-            public static int MinWMana
+            public static int MinEManaC
             {
-                get { return _minWMana.CurrentValue; }
+                get { return _minEManaC.CurrentValue; }
             }
 
-            public static int MinEMana
+            public static int MinRManaC
             {
-                get { return _minEMana.CurrentValue; }
+                get { return _minRManaC.CurrentValue; }
             }
 
-            public static int MinRMana
+            //Harass
+
+            public static int MinEManaH
             {
-                get { return _minRMana.CurrentValue; }
+                get { return _minEManaH.CurrentValue; }
+            }
+
+            //LC
+
+            public static int MinWManaLC
+            {
+                get { return _minWManaLC.CurrentValue; }
+            }
+
+            public static int MinEManaLC
+            {
+                get { return _minEManaLC.CurrentValue; }
+            }
+
+            //JC
+
+            public static int MinWManaJC
+            {
+                get { return _minWManaJC.CurrentValue; }
+            }
+
+            public static int MinEManaJC
+            {
+                get { return _minEManaJC.CurrentValue; }
+            }
+
+            //Flee
+            public static int MinWManaF
+            {
+                get { return _minWManaF.CurrentValue; }
+            }
+
+            public static int MinRManaF
+            {
+                get { return _minRManaF.CurrentValue; }
             }
 
             public static void Initialize()
@@ -327,7 +404,6 @@ namespace Tristerino
             static PredictionMenu()
             {
                 MenuPrediction = Menu.AddSubMenu("Prediction");
-                MenuPrediction.AddLabel("Here you can control the minimum HitChance to cast skills.");
                 MenuPrediction.AddGroupLabel("W Prediction");
                 MenuPrediction.AddGroupLabel("Combo");
                 _minWHCCombo = Misc.CreateHitChanceSlider("comboMinWHitChance", "Combo", HitChance.High, MenuPrediction);
@@ -365,7 +441,7 @@ namespace Tristerino
                 _drawW = MenuDrawing.Add("drawW", new CheckBox("Draw W"));
                 _drawE = MenuDrawing.Add("drawE", new CheckBox("Draw E"));
                 _drawR = MenuDrawing.Add("drawR", new CheckBox("Draw R"));
-                _drawOnlyReady = MenuDrawing.Add("drawOnlyReady", new CheckBox("Draw Only Ready Skills"));
+                _drawOnlyReady = MenuDrawing.Add("drawOnlyReady", new CheckBox("Draw only ready skills"));
             }
 
             public static bool DrawW

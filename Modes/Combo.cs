@@ -16,7 +16,7 @@ namespace Tristerino.Modes
         public override void Execute()
         {
             // Skills
-            if (Settings.UseR && R.IsReady() && PlayerMana >= SettingsMana.MinRMana)
+            if (Settings.UseR && R.IsReady() && PlayerMana >= SettingsMana.MinRManaC)
             {
                 var target = TargetSelector.GetTarget(R.Range, DamageType.Magical);
                 if (target != null)
@@ -36,7 +36,7 @@ namespace Tristerino.Modes
                     }
                 }
             }
-            if (Settings.UseW && W.IsReady() && PlayerMana >= SettingsMana.MinWMana)
+            if (Settings.UseW && W.IsReady() && PlayerMana >= SettingsMana.MinWManaC)
             {
                 var target = TargetSelector.GetTarget(W.Range, DamageType.Magical);
                 if (target != null)
