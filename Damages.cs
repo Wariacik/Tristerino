@@ -61,11 +61,6 @@ namespace Tristerino
                    (Player.Instance.HasBuff("SummonerExhaustSlow") ? 0.6f : 1);
         }
 
-        public static float IgniteDmg(Obj_AI_Base target)
-        {
-            return Player.Instance.GetSummonerSpellDamage(target, DamageLibrary.SummonerSpells.Ignite);
-        }
-
         public static int EStacks(Obj_AI_Base target)
         {
             var buff = target.GetBuff("TristanaECharge");
@@ -75,5 +70,27 @@ namespace Tristerino
             }
             return buff.Count;
         }
+
+        /*public static float GetComboDamage(Obj_AI_Base enemy)
+        {
+            float _damage = 0;
+
+            _damage += (float)ObjectManager.Player.GetAutoAttackDamage(enemy, true);
+
+            if (enemy.HasBuff("tristanaecharge"))
+            {
+                _damage += (float)Player.Instance.CalculateDamageOnUnit(enemy, DamageType.Physical, ERawDamage(enemy))*
+                   (Player.Instance.HasBuff("SummonerExhaustSlow") ? 0.6f : 1);
+            }
+
+            if (SpellM.R.IsReady())
+            {
+
+                _damage += Player.Instance.CalculateDamageOnUnit(enemy, DamageType.Physical, RRawDamage()) *
+                   (Player.Instance.HasBuff("SummonerExhaustSlow") ? 0.6f : 1);
+            }
+
+            return _damage;
+        }*/
     }
 }

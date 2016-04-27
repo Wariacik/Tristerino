@@ -35,22 +35,40 @@ namespace Tristerino.Modes
                         }
                     }
                 }
+                
             }
             if (Settings.UseW && W.IsReady() && PlayerMana >= SettingsMana.MinWManaC)
             {
                 var target = TargetSelector.GetTarget(W.Range, DamageType.Magical);
+
                 if (target != null)
                 {
-                    if (!target.HasBuffOfType(BuffType.SpellImmunity) && !target.HasBuffOfType(BuffType.SpellShield))
+                    if (!Settings.WTurret && Extensions.CountEnemiesInRange(target, 200) <= 2)
                     {
-                        var pred = W.GetPrediction(target);
-                        if (pred.HitChance >= SettingsPrediction.MinWHCCombo)
+                        if (!target.HasBuffOfType(BuffType.SpellImmunity) && !target.HasBuffOfType(BuffType.SpellShield) &&
+                            !target.IsUnderTurret())
                         {
-                            W.Cast(pred.CastPosition);
+                            var pred = W.GetPrediction(target);
+                            if (pred.HitChance >= SettingsPrediction.MinWHCCombo)
+                            {
+                                W.Cast(pred.CastPosition);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (!target.HasBuffOfType(BuffType.SpellImmunity) && !target.HasBuffOfType(BuffType.SpellShield))
+                        {
+                            var pred = W.GetPrediction(target);
+                            if (pred.HitChance >= SettingsPrediction.MinWHCCombo)
+                            {
+                                W.Cast(pred.CastPosition);
+                            }
                         }
                     }
                 }
             }
         }
     }
+    
 }

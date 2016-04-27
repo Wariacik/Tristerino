@@ -58,6 +58,7 @@ namespace Tristerino
                 private static readonly CheckBox _useW;
                 private static readonly CheckBox _useE;
                 private static readonly CheckBox _useR;
+                private static readonly CheckBox _Wturret;
 
                 static Combo()
                 {
@@ -66,6 +67,7 @@ namespace Tristerino
                     _useW = MenuModes.Add("comboUseW", new CheckBox("Use W"));
                     _useE = MenuModes.Add("comboUseE", new CheckBox("Use E"));
                     _useR = MenuModes.Add("comboUseR", new CheckBox("Use R"));
+                    _Wturret = MenuModes.Add("WTurret", new CheckBox("Use W under enemy turret", false));
                 }
 
                 public static bool UseQ
@@ -86,6 +88,11 @@ namespace Tristerino
                 public static bool UseR
                 {
                     get { return _useR.CurrentValue; }
+                }
+
+                public static bool WTurret
+                {
+                    get { return _Wturret.CurrentValue; }
                 }
 
                 public static void Initialize()
@@ -434,6 +441,7 @@ namespace Tristerino
             private static readonly CheckBox _drawE;
             private static readonly CheckBox _drawR;
             private static readonly CheckBox _drawOnlyReady;
+            private static readonly CheckBox _drawStacks;
 
             static DrawingMenu()
             {
@@ -442,6 +450,7 @@ namespace Tristerino
                 _drawE = MenuDrawing.Add("drawE", new CheckBox("Draw E"));
                 _drawR = MenuDrawing.Add("drawR", new CheckBox("Draw R"));
                 _drawOnlyReady = MenuDrawing.Add("drawOnlyReady", new CheckBox("Draw only ready skills"));
+                _drawStacks = MenuDrawing.Add("DrawStacks", new CheckBox("Draw E Stacks"));
             }
 
             public static bool DrawW
@@ -462,6 +471,11 @@ namespace Tristerino
             public static bool DrawOnlyReady
             {
                 get { return _drawOnlyReady.CurrentValue; }
+            }
+
+            public static bool DrawStacks
+            {
+                get { return _drawStacks.CurrentValue; }
             }
 
             public static void Initialize()

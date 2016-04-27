@@ -111,6 +111,10 @@ namespace Tristerino
         {
         }
 
+        private static bool HasEBuff(this Obj_AI_Base target)
+        {
+            return target.HasBuff("TristanaECharge");
+        }
 
         private static void OnDraw(EventArgs args)
         {
@@ -136,6 +140,42 @@ namespace Tristerino
                     Circle.Draw(Color.Red, ERRange, Player.Instance.Position);
                 }
             }
+
+            //Stacks
+            var target = EntityManager.Heroes.Enemies.Find(x => x.HasBuff("TristanaECharge") && x.IsValidTarget(2000));
+            if (!target.IsValidTarget())
+            {
+                return;
+            }
+            if (SettingsDrawing.DrawStacks)
+            {
+                var x = target.HPBarPosition.X + 45;
+                var y = target.HPBarPosition.Y - 25;
+
+                if (SpellM.E.Level > 0)
+                {
+                    if (HasEBuff(target))
+                    {
+                        var stacks = target.GetBuffCount("TristanaECharge");
+                        if (stacks > -1)
+                        {
+                            for (var i = 0; 4 > i; i++)
+                            {
+                                if (i > stacks)
+                                {
+                                    Drawing.DrawLine(x + i*20, y, x + i*20 + 10, y, 10, System.Drawing.Color.Black);
+                                }
+                                else
+                                {
+                                    Drawing.DrawLine(x + i*20, y, x + i*20 + 10, y, 10, System.Drawing.Color.White);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            //End of stacks
+
         }
     }
 }

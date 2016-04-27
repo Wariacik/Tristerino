@@ -22,6 +22,7 @@ namespace Tristerino
             ModeM.Initialize();
             Events.Initialize();
             MiscFunctions.Initialize();
+            //DamageIndicator.Initialize();
             Game.OnTick += MiscFunctions.Game_OnTick;
 
 
